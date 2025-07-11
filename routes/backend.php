@@ -96,6 +96,12 @@ Route::middleware(['auth'])->group(function () {
             Route::get('teacher/exams/answers/{exam}', [ExamAnswer::class, 'AnswerQuestions'])->name('exams.answer.questions');
             Route::get('teacher/exams/answersShow/{exam}/{question}', [ExamAnswer::class, 'AnswerQuestionsShow'])->name('exams.answer.questions.show');
             Route::post('teacher/exams/answers/score/{question}', [ExamAnswer::class, 'giveScore'])->name('exams.answer.questions.score');
+
+            //student appliciance
+            Route::get('teacher/all-student-appliciance', [StudentController::class, 'allStudentAppliciance'])->name('student.appliciance.index');
+            Route::get('teacher/exams/student-appliciance/create', [StudentController::class, 'create'])->name('student.appliciance.create');
+            Route::post('teacher/exams/student-appliciance/store', [StudentController::class, 'store'])->name('student.appliciance.store');
+            Route::delete('teacher/exams/student-appliciance/{student}', [StudentController::class, 'destroy'])->name('student.appliciance.destroy');
         });
         
     // 🟢 Student routes

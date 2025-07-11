@@ -117,4 +117,12 @@ class StudentController extends Controller
 
         return redirect()->route('student.index')->with('success', 'Student deleted successfully.');
     }
+
+
+    //student appliciance
+    public function allStudentAppliciance()
+    {
+        $students = Student::with('user')->where('status', 'pending')->get();
+        return view('backend.students.student_applicance', compact('students'));
+    }
 }

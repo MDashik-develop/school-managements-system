@@ -224,8 +224,9 @@
                         <a href="{{ route('student.create') }}" class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 text-sm {{ Request::routeIs('student.create') ? 'active' : '' }}">
                             <span>Create Students</span>
                         </a>
-                    </div>
-                
+                        <a href="       " class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 text-sm {{ Request::routeIs('student.applicants') ? 'active' : '' }}">
+                            <span>Student Applicants</span>
+                            </a>
                 </div>
             </nav>
 
