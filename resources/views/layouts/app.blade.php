@@ -92,15 +92,15 @@
     <body class="flex h-screen bg-slate-100">
 
         {{-- Global Success/Error Messages (placed at top of content area) --}}
-        <div class="fixed top-4 w-full z-50">
+        <div class="fixed z-50 w-full top-4">
             @if (session('success'))
-                <div class="max-w-4xl mx-auto bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <div class="relative max-w-4xl px-4 py-3 mx-auto mb-4 text-green-700 bg-green-100 border border-green-400 rounded" role="alert">
                     <strong class="font-bold">Success!</strong>
                     <span class="block sm:inline">{{ session('success') }}</span>
                 </div>
             @endif
             @if ($errors->any())
-                <div class="max-w-4xl mx-auto bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
+                <div class="relative max-w-4xl px-4 py-3 mx-auto mb-4 text-red-700 bg-red-100 border border-red-400 rounded" role="alert">
                     <strong class="font-bold">Error!</strong>
                     <span class="block sm:inline">Please fix the following errors:</span>
                     <ul class="mt-3 list-disc list-inside">
@@ -112,8 +112,8 @@
             @endif
         </div>
 
-        <aside id="sidebar" class="w-64 bg-slate-800 text-slate-100 flex flex-col fixed inset-y-0 left-0 z-30 transform -translate-x-full lg:translate-x-0 lg:relative">
-            <div class="h-20 flex items-center justify-center px-4 border-b border-slate-700">
+        <aside id="sidebar" class="fixed inset-y-0 left-0 z-30 flex flex-col w-64 transform -translate-x-full bg-slate-800 text-slate-100 lg:translate-x-0 lg:relative">
+            <div class="flex items-center justify-center h-20 px-4 border-b border-slate-700">
                 
                 <img src="{{ asset('storage/website/white Alphainno logo.png') }}" alt="">
             </div>
@@ -224,7 +224,7 @@
                         <a href="{{ route('student.create') }}" class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 text-sm {{ Request::routeIs('student.create') ? 'active' : '' }}">
                             <span>Create Students</span>
                         </a>
-                        <a href="       " class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 text-sm {{ Request::routeIs('student.applicants') ? 'active' : '' }}">
+                        <a href="{{ route('student.appliciance.index') }}" class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 text-sm {{ Request::routeIs('student.applicants') ? 'active' : '' }}">
                             <span>Student Applicants</span>
                             </a>
                 </div>
@@ -232,7 +232,7 @@
 
             <div class="px-4 py-4 border-t border-slate-700">
                 <div class="flex items-center">
-                    <img class="h-10 w-10 rounded-full object-cover" src="https://placehold.co/100x100/6366f1/FFFFFF?text=A" alt="Admin avatar">
+                    <img class="object-cover w-10 h-10 rounded-full" src="https://placehold.co/100x100/6366f1/FFFFFF?text=A" alt="Admin avatar">
                     <div class="ml-3">
                         <a href="{{ route('profile.edit') }}" class="text-sm font-semibold text-white">
                             {{ Auth::user()->name }}
@@ -252,13 +252,13 @@
             </div>
         </aside>
 
-        <div class="flex-1 flex flex-col overflow-hidden">
-            <header class="h-20 flex items-center justify-between lg:justify-end px-4 sm:px-6 lg:px-8 bg-white border-b border-slate-200">
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <header class="flex items-center justify-between h-20 px-4 bg-white border-b lg:justify-end sm:px-6 lg:px-8 border-slate-200">
                 <button id="menu-button" class="lg:hidden text-slate-500 hover:text-slate-700 focus:outline-none">
                     <i data-feather="menu" class="w-6 h-6"></i>
                 </button>
                 <div class="flex items-center gap-4">
-                    <button class="px-4 py-2 bg-indigo-600 text-white rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 transition-all duration-300 flex items-center gap-2">
+                    <button class="flex items-center gap-2 px-4 py-2 text-white transition-all duration-300 bg-indigo-600 rounded-lg shadow-md hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2">
                         <i data-feather="plus-circle" class="w-5 h-5"></i>
                         <span>নতুন পোস্ট</span>
                     </button>
