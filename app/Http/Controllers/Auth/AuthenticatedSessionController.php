@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
+use App\Models\Student;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,17 +33,34 @@ class AuthenticatedSessionController extends Controller
         if ($user->hasRole('admin')) {
             return redirect()->route('dashboard');
         }
-    
+
         if ($user->hasRole('teacher')) {
             return redirect()->route('teacher.dashboard');
         }
-    
+
         if ($user->hasRole('student')) {
-            return redirect()->route('student.dashboard');
+            $student = Student::where('user_id', $user->id)->first();
+
+            // যদি Student রেকর্ডই না থাকে
+            if (!$student) {
+                auth()->logout();  // Logout the user
+                session()->flash('message', 'Your note, our students');  // Flash message
+                return redirect()->route('login');
+            }
+
+            if ($student->status === 'active') {
+                return redirect()->route('student.dashboard');
+            } else {
+                auth()->logout();  // Logout the user
+                session()->flash('message', 'Your note, our students');  // Flash message
+                return redirect()->route('login');
+            }
         }
-    
+
+
+
         return redirect('/'); // fallback
-        
+
     }
 
     /**
