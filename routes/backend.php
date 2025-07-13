@@ -102,6 +102,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('teacher/exams/student-appliciance/create', [StudentController::class, 'create'])->name('student.appliciance.create');
             Route::post('teacher/exams/student-appliciance/store', [StudentController::class, 'store'])->name('student.appliciance.store');
             Route::delete('teacher/exams/student-appliciance/{student}', [StudentController::class, 'destroy'])->name('student.appliciance.destroy');
+
+            //student approve
+            Route::get('teacher/student-approve/sendMail/{student}', [StudentController::class, 'StudentApproveSendMail'])->name('student.approve.send.mail'); 
         });
         
     // 🟢 Student routes
@@ -112,6 +115,9 @@ Route::middleware(['auth'])->group(function () {
             Route::get('/student/exams/{exam}', [StudentExam::class, 'create'])->name('student.exams.create');
             Route::post('/student/exams/{exam}/answer/mcq', [StudentExam::class, 'submitAnswerMCQ'])->name('student.exams.submit.mcq');
             Route::post('/student/exams/{exam}/answer/cq', [StudentExam::class, 'submitAnswerCQ'])->name('student.exams.submit.cq');
+
+            //student peyment procces
+            Route::get('/student-aprove/payment/{student_id}', [StudentController::class, 'payment'])->name('student.aprove.payment');
         });
 
 });

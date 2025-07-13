@@ -27,7 +27,7 @@ class StudentController extends Controller
             'phone'   => 'required|string|unique:users,phone|max:20', // users টেবিলে ফোন নম্বর ইউনিক হতে হবে
             'address' => 'nullable|string',
             'dob'     => 'nullable|date',
-            'email'   => 'required|string|unique:users,email|max:20', // users টেবিলে ইমেইল নম্বর ইউনিক হতে হবে
+            'email'   => 'required|string|unique:users,email', // users টেবিলে ইমেইল নম্বর ইউনিক হতে হবে
         ]);
 
         // ডাটাবেজ ট্রানজেকশন শুরু করুন

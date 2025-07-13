@@ -41,6 +41,7 @@
                             <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Contact</th>
                             <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-left text-gray-500 uppercase dark:text-gray-400">Application Details</th>
                             <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase dark:text-gray-400">Status</th>
+                            <th scope="col" class="px-6 py-3 text-xs font-medium tracking-wider text-center text-gray-500 uppercase dark:text-gray-400">Action</th>
                             <th scope="col" class="relative px-6 py-3">
                                 <span class="sr-only">Actions</span>
                             </th>
@@ -79,6 +80,17 @@
                                     {{ ucfirst($student->status) }}
                                 </span>
                             </td>
+                            <td class="px-6 py-4 text-center whitespace-nowrap">
+                                <div class="flex justify-end gap-2.5">
+                                    <a href="{{ route('student.show', $student) }}" 
+                                       class="text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                        <i class="mr-2 text-sm fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ route('student.approve.send.mail', $student->id) }}" class="text-indigo-500 hover:text-indigo-700 dark:text-indigo-400 dark:hover:text-indigo-300">
+                                        <i class="mr-2 text-sm fas fa-paper-plane"></i>
+                                    </a>
+                                </div>
+                            </td>
                             <td class="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                                 <div x-data="{ open: false }" @click.away="open = false" class="relative inline-block text-left">
                                     <button @click="open = !open" class="inline-flex items-center justify-center w-8 h-8 text-gray-400 bg-transparent rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 focus:outline-none">
@@ -113,6 +125,7 @@
                                     </div>
                                 </div>
                             </td>
+
                         </tr>
                         @endforeach
                     </tbody>

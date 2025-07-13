@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Backend\Student;
 
 use App\Http\Controllers\Controller;
+use App\Mail\StudentAprove;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 
 class StudentController extends Controller
 {
@@ -124,5 +126,24 @@ class StudentController extends Controller
     {
         $students = Student::with('user')->where('status', 'pending')->get();
         return view('backend.students.student_applicance', compact('students'));
+    }
+
+    //student appliciance
+    public function StudentApproveSendMail(Student $student)
+    {
+        // dd( $student->user->email);
+        $details = [
+            'subject' => 'Please complete the procces Alphainno',
+            'link' => route('student.aprove.payment', $student->id), 
+            'name' => $student->name,
+            'class' => $student->class,
+            'dob' => $student->dob,
+            'student_id' => $student->student_id,
+            'user_id' => $student->user_id,
+        ];
+
+        Mail::to($student->user->email)->send(new StudentAprove($details));
+
+        return redirect()->route('student.appliciance.index')->with('success', 'Mail sent successfully!.');
     }
 }

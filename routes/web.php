@@ -21,6 +21,7 @@ Route::middleware('auth')->group(function () {
 Route::get('/register/student', [StudentController::class, 'registerStudent'])->name('student.register');
 Route::post('/register/student/store', [StudentController::class, 'registerStudentStore'])->name('register.student.store');
 
+
  
 
 require __DIR__.'/auth.php';
