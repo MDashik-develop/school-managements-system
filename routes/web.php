@@ -22,7 +22,8 @@ Route::get('/register/student', [StudentController::class, 'registerStudent'])->
 Route::post('/register/student/store', [StudentController::class, 'registerStudentStore'])->name('register.student.store');
 
 
- 
+Route::post('/test-msg', [StudentController::class, 'testMsg'])->name('msg-test');
+
 
 require __DIR__.'/auth.php';
 require __DIR__.'/backend.php';

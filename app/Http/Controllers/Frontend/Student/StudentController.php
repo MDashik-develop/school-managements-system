@@ -9,9 +9,11 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB; // ডাটাবেজ ট্রানজেকশনের জন্য
 use Illuminate\Support\Facades\Hash; // পাসওয়ার্ড হ্যাশ করার জন্য
 use Illuminate\Support\Facades\Log;
+use App\Traits\SmsSender;
 
 class StudentController extends Controller
 {
+    use SmsSender;
     //
     public function registerStudent()
     {
@@ -20,57 +22,70 @@ class StudentController extends Controller
 
     public function registerStudentStore(Request $request)
     {
-        // ধাপ ১: ফর্মের ডেটা ভ্যালিডেট করুন
+        
         $validatedData = $request->validate([
             'name'    => 'required|string|max:255',
             'class'   => 'required|string|max:100',
-            'phone'   => 'required|string|unique:users,phone|max:20', // users টেবিলে ফোন নম্বর ইউনিক হতে হবে
+            'phone'   => 'required|string|unique:users,phone|max:20',
             'address' => 'nullable|string',
             'dob'     => 'nullable|date',
-            'email'   => 'required|string|unique:users,email', // users টেবিলে ইমেইল নম্বর ইউনিক হতে হবে
+            'email'   => 'required|string|unique:users,email',
+            'guardian_number' => 'required|string|max:255',
+            'father_name' => 'required|string|max:255',
+            'mother_name' => 'required|string|max:255',
+            'password' => 'required|min:6',
+            'password_confirmation' => 'required|same:password',
         ]);
 
-        // ডাটাবেজ ট্রানজেকশন শুরু করুন
-        // এর ফলে কোনো একটি ধাপে সমস্যা হলে সব পরিবর্তন বাতিল হয়ে যাবে
         DB::beginTransaction();
 
         try {
-            // ধাপ ২: users টেবিলে নতুন ইউজার তৈরি করুন
-            // এখানে আমরা ফোন নম্বরকেই ডিফল্ট পাসওয়ার্ড এবং ইমেইলের অংশ হিসেবে ব্যবহার করছি
             $user = User::create([
                 'name'     => $validatedData['name'],
-                'email'    => $validatedData['email'], // একটি ইউনিক ইমেইল তৈরি করা হলো
-                // 'phone'    => $validatedData['phone'],
-                'password' => Hash::make($validatedData['phone']), // ফোন নম্বরকেই ডিফল্ট পাসওয়ার্ড বানানো হলো
+                'email'    => $validatedData['email'], 
+                'phone'    => '88' . ltrim($validatedData['phone'], '0'),
+                'password' => Hash::make($validatedData['phone']),
             ]);
 
-            // ধাপ ৩: নতুন ইউজারকে 'student' রোল দিন
+            
             $user->assignRole('student');
 
-            // ধাপ ৫: students টেবিলে নতুন ছাত্রের তথ্য তৈরি করুন
+            
             Student::create([
-                'user_id'    => $user->id, // নতুন তৈরি হওয়া ইউজারের আইডি
-                'student_id' => date('Y') . $user->id, // একটি ইউনিক স্টুডেন্ট আইডি তৈরি করা হলো
+                'user_id'    => $user->id,
+                'student_id' => date('Y') . $user->id,
                 'name'       => $validatedData['name'],
                 'class'      => $validatedData['class'],
-                'phone'      => $validatedData['phone'],
+                'phone'      => '88' . ltrim($validatedData['guardian_number'], '0'),
                 'address'    => $validatedData['address'],
                 'dob'        => $validatedData['dob'],
+                'status'      => 'active',
+                'guardian_number' => '88' . ltrim($validatedData['phone'], '0'),
+                'father_name' => $validatedData['father_name'],
+                'mother_name' => $validatedData['mother_name'],
             ]);
 
-            // সব ঠিক থাকলে ট্রানজেকশন কমিট করুন
             DB::commit();
 
-            // সফলভাবে রেজিস্ট্রেশন হলে লগইন পেজে পাঠান
-            return redirect()->route('login')->with('success', 'Registration successful! Please login with your phone number as password.');
+            
+
+            $this->sendSms(
+                '88' . ltrim($validatedData['guardian_number'], '0'),
+                'Your child has been registered successfully.'
+            );
+            
+
+        
+            return redirect()->route('login')->with('success', 'Registration successful! Please login with your mail address as password.');
 
         } catch (\Exception $e) {
-            // কোনো সমস্যা হলে ট্রানজেকশন বাতিল করুন
+            
             DB::rollBack();
 
-            // এরর লগ করুন এবং ব্যবহারকারীকে একটি বার্তা দেখান
+            
             Log::error('Student registration failed: ' . $e->getMessage());
             return back()->with('error', 'An error occurred during registration. Please try again.');
         }
     }
+
 }

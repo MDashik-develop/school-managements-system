@@ -52,7 +52,7 @@ class AuthenticatedSessionController extends Controller
                 return redirect()->route('student.dashboard');
             } else {
                 auth()->logout();  // Logout the user
-                session()->flash('message', 'Your note, our students');  // Flash message
+                session()->flash('message', 'You not our students');  // Flash message
                 return redirect()->route('login');
             }
         }

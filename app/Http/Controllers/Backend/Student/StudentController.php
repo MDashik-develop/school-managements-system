@@ -17,7 +17,7 @@ class StudentController extends Controller
     {
         return view('backend.students.StudentdDshboard');
     }
-    
+
     public function index()
     {
         $students = Student::with('user')->paginate(10);
@@ -39,7 +39,7 @@ class StudentController extends Controller
             'address' => 'nullable|string',
             'password' => 'required|min:6',
             'photo' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048', // optional photo validation
-             
+
         ]);
 
         // Create user
@@ -48,10 +48,10 @@ class StudentController extends Controller
             'email' => $request->email,
             'password' => Hash::make('password'), // default password
         ]);
-        
+
         // $user->assignRole('student');
 
-        
+
 
         $filePath = null;
         // 2. Check if an attachment was uploaded
@@ -60,7 +60,7 @@ class StudentController extends Controller
             $file = $request->file('photo');
 
             // Create a unique filename with timestamp and exam_id
-            $filename = time() . '_' . $user->id. '.' . $file->getClientOriginalExtension();
+            $filename = time() . '_' . $user->id . '.' . $file->getClientOriginalExtension();
             $filePath = $file->storeAs('students', $filename, 'public');
         }
 
@@ -134,7 +134,7 @@ class StudentController extends Controller
         // dd( $student->user->email);
         $details = [
             'subject' => 'Please complete the procces Alphainno',
-            'link' => route('student.aprove.payment', $student->id), 
+            'link' => route('student.aprove.payment', $student->id),
             'name' => $student->name,
             'class' => $student->class,
             'dob' => $student->dob,
@@ -146,4 +146,32 @@ class StudentController extends Controller
 
         return redirect()->route('student.appliciance.index')->with('success', 'Mail sent successfully!.');
     }
+
+    // //student password create
+    // public function passwordCreate($student_id)
+    // {
+    //     // dd($student_id);
+    //     $student = Student::where('student_id', $student_id)->first();
+    //     return view('frontend.student.password_create', compact('student'));
+    // }
+
+    // // student password store
+    // public function passwordStore(Request $request, $student_id)
+    // {
+    //     $request->validate([
+    //         'password' => ['required', 'string', 'min:8'],
+    //     ]);
+
+    //     $student = Student::findOrFail($student_id);
+
+    //     $student->user->password = Hash::make($request->password);
+    //     $student->user->save();
+
+    //     $student->status = 'active';
+    //     $student->save();
+
+    //     session()->flash('message', 'Password set successfully. You can now log in.');
+
+    //     return redirect()->route('login');
+    // }
 }

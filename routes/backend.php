@@ -118,6 +118,11 @@ Route::middleware(['auth'])->group(function () {
 
             //student peyment procces
             Route::get('/student-aprove/payment/{student_id}', [StudentController::class, 'payment'])->name('student.aprove.payment');
+            // Route::get('/student-aprove/payment/success', [StudentController::class, 'paymentSuccess'])->name('student.aprove.payment.success');
         });
 
 });
+        // //student approve password create
+        //     Route::get('/student-aprove/password-create/{student_id}', [StudentController::class, 'passwordCreate'])->name('student.aprove.password.create');
+        //     Route::post('/student-aprove/password-store/{student_id}', [StudentController::class, 'passwordStore'])->name('student.aprove.password.store');
+            
