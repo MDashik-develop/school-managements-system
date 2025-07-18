@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Backend\Admin;
+use App\Http\Controllers\Backend\Teacher\CourseController;
 use App\Http\Controllers\Backend\Teacher\CqQuestion;
 use App\Http\Controllers\Backend\Teacher\ExamAnswer;
 use App\Http\Controllers\Backend\Teacher\ExamController;
@@ -15,10 +16,6 @@ use Illuminate\Support\Facades\Route;
 
 
 Route::middleware(['auth'])->group(function () {
-
-    // Route::middleware(['auth', 'role.access:admin'])->group(...);
-    // Route::middleware(['auth', 'role.access:teacher'])->group(...);
-    // Route::middleware(['auth', 'role.access:student'])->group(...);v
     Route::get('/dashboard', function () {
         $user = Auth::user();
     
@@ -104,7 +101,16 @@ Route::middleware(['auth'])->group(function () {
             Route::delete('teacher/exams/student-appliciance/{student}', [StudentController::class, 'destroy'])->name('student.appliciance.destroy');
 
             //student approve
-            Route::get('teacher/student-approve/sendMail/{student}', [StudentController::class, 'StudentApproveSendMail'])->name('student.approve.send.mail'); 
+            Route::get('teacher/student-approve/sendMail/{student}', [StudentController::class, 'StudentApproveSendMail'])->name('student.approve.send.mail');
+            
+            
+            //create course
+            Route::get('teacher/course/index', [CourseController::class, 'index'])->name('course.index');
+            Route::get('teacher/course/create', [CourseController::class, 'create'])->name('course.create');
+            Route::post('teacher/course/store', [CourseController::class, 'store'])->name('course.store');
+            Route::get('teacher/course/edit/{course}', [CourseController::class, 'edit'])->name('course.edit');
+            Route::put('teacher/course/update/{course}', [CourseController::class, 'update'])->name('course.update');
+            Route::delete('teacher/course/destroy/{course}', [CourseController::class, 'destroy'])->name('course.delete');
         });
         
     // 🟢 Student routes

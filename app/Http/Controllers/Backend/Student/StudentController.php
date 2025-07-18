@@ -7,6 +7,7 @@ use App\Mail\StudentAprove;
 use App\Models\Student;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -114,6 +115,10 @@ class StudentController extends Controller
 
     public function destroy(Student $student)
     {
+            // Check and delete thumbnail from storage
+    if ($student->photo && Storage::disk('public')->exists($student->photo)) {
+        Storage::disk('public')->delete($student->photo);
+    }
         $student->user()->delete();
         $student->delete();
 

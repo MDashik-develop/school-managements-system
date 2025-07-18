@@ -277,6 +277,38 @@
                         <span>Student Applicants</span>
                     </a>
                 </div>
+            </div>
+
+            {{-- Course --}}
+            <div class="relative">
+                @php
+                // Check if any course-related route is active
+                $isCourseActive = Request::routeIs('course.*');
+                @endphp
+                <a href="{{ route('course.create') }}"
+                    class="sidebar-link flex items-center justify-between px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 {{ $isCourseActive ? 'active' : '' }}"
+                    data-submenu="course-submenu">
+                    <div class="flex items-center">
+                        <i data-feather="book-open" class="w-5 h-5 mr-3"></i>
+                        <span>
+                            Course
+                        </span>
+                    </div>
+                    <i data-feather="chevron-right" class="w-4 h-4 arrow-icon"></i>
+                </a>
+                <div id="course-submenu"
+                    class="submenu-container {{ $isCourseActive ? 'expanded' : 'collapsed' }} pl-8 pt-1 pb-1.5 space-y-1">
+                    <a href="{{ route('course.index') }}"
+                        class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 text-sm {{ Request::routeIs('course.index') ? 'active' : '' }}">
+                        <span>All Courses</span>
+                    </a>
+                    <a href="{{ route('course.create') }}"
+                        class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 text-sm {{ Request::routeIs('course.create') ? 'active' : '' }}">
+                        <span>Create Course</span>
+                    </a>
+                </div>
+            </div>
+
         </nav>
 
         <div class="px-4 py-4 border-t border-slate-700">

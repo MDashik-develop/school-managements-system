@@ -1,27 +1,18 @@
 <?php
-// app/Models/Payment.php
+// app/Models/Lesson.php
 
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Payment extends Model
+class Lesson extends Model
 {
     use HasFactory;
 
     protected $fillable = [
-        'user_id',
-        'course_id',
-        'amount_due',
-        'amount_paid',
-        'status',
+        'course_id', 'title', 'content', 'video_url', 'order'
     ];
-
-    public function user()
-    {
-        return $this->belongsTo(User::class);
-    }
 
     public function course()
     {
