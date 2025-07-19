@@ -44,7 +44,7 @@ class StudentController extends Controller
                 'name'     => $validatedData['name'],
                 'email'    => $validatedData['email'], 
                 'phone'    => '88' . ltrim($validatedData['phone'], '0'),
-                'password' => Hash::make($validatedData['phone']),
+                'password' => Hash::make($validatedData['password']),
             ]);
 
             
@@ -66,8 +66,6 @@ class StudentController extends Controller
             ]);
 
             DB::commit();
-
-            
 
             $this->sendSms(
                 '88' . ltrim($validatedData['guardian_number'], '0'),

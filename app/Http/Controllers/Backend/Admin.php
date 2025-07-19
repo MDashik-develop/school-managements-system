@@ -7,5 +7,9 @@ use Illuminate\Http\Request;
 
 class Admin extends Controller
 {
-    //c
+    //
+    public function index()
+    {
+        return view("backend.admin.index");
+    }
 }

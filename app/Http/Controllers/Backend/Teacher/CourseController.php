@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Backend\Teacher;
 
 use App\Http\Controllers\Controller;
 use App\Models\Course;
+use App\Models\Lesson;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
@@ -96,14 +97,51 @@ class CourseController extends Controller
 
     public function destroy(Course $course)
     {
-    // Check and delete thumbnail from storage
-    if ($course->thumbnail && Storage::disk('public')->exists($course->thumbnail)) {
-        Storage::disk('public')->delete($course->thumbnail);
-    }
+        // Check and delete thumbnail from storage
+        if ($course->thumbnail && Storage::disk('public')->exists($course->thumbnail)) {
+            Storage::disk('public')->delete($course->thumbnail);
+        }
 
         $course->delete();
 
         return redirect()->route('course.index')->with('success', 'Course deleted successfully!');
+    }
+
+    // lesson
+    public function view(Course $course)
+    {
+        $lessons = Lesson::where('course_id', $course->id)->get();
+
+        return view('backend.teachers.course.view', compact('course', 'lessons'));
+    }
+
+    public function LessonCreate(Course $course)
+    {
+        $lesson = new Lesson();
+        return view('backend.teachers.course.lesson.create', compact('course', 'lesson'));
+    }
+
+    public function LessonStore(Request $request, Course $course)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:255',
+            'content' => 'nullable|string',
+            'video_url' => 'nullable|url',
+            'order' => 'nullable|integer|min:0',
+        ]);
+
+        $validated['course_id'] = $course->id;
+
+        Lesson::create($validated);
+
+        return redirect()->route('course.view', $course->id)->with('success', 'Lesson created successfully!');
+    }
+
+    public function LessonDestroy(Lesson $lesson)
+    {
+        $lesson->delete();
+
+        return redirect()->route('course.view', $lesson->course_id)->with('success', 'Lesson deleted successfully!');
     }
 
 }

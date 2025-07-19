@@ -9,6 +9,7 @@ use App\Http\Controllers\Backend\Teacher\McqQuestion;
 use App\Http\Controllers\Backend\Permission\PermissionController;
 use App\Http\Controllers\Backend\Student\StudentController;
 use App\Http\Controllers\Backend\Teacher\TeacherController;
+use App\Http\Controllers\Frontend\Student\StudentCourseController;
 use App\Http\Controllers\Frontend\Student\StudentExam;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
@@ -111,6 +112,11 @@ Route::middleware(['auth'])->group(function () {
             Route::get('teacher/course/edit/{course}', [CourseController::class, 'edit'])->name('course.edit');
             Route::put('teacher/course/update/{course}', [CourseController::class, 'update'])->name('course.update');
             Route::delete('teacher/course/destroy/{course}', [CourseController::class, 'destroy'])->name('course.delete');
+            Route::get('teacher/course/view/{course}', [CourseController::class, 'view'])->name('course.view');
+            //leason create
+            Route::get('teacher/lesson/create/{course}', [CourseController::class, 'LessonCreate'])->name('lesson.create');
+            Route::post('teacher/lesson/store/{course}', [CourseController::class, 'LessonStore'])->name('lesson.store');
+            Route::delete('teacher/lesson/destroy/{lesson}', [CourseController::class, 'LessonDestroy'])->name('lesson.delete');
         });
         
     // 🟢 Student routes
@@ -125,6 +131,11 @@ Route::middleware(['auth'])->group(function () {
             //student peyment procces
             Route::get('/student-aprove/payment/{student_id}', [StudentController::class, 'payment'])->name('student.aprove.payment');
             // Route::get('/student-aprove/payment/success', [StudentController::class, 'paymentSuccess'])->name('student.aprove.payment.success');
+
+            //course
+            Route::get('/student/course/index', [StudentCourseController::class, 'index'])->name('student.course.index');
+            
+            Route::get('/student/course/enroll', [StudentCourseController::class, 'create'])->name('student.course.enroll');
         });
 
 });

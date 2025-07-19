@@ -283,7 +283,7 @@
             <div class="relative">
                 @php
                 // Check if any course-related route is active
-                $isCourseActive = Request::routeIs('course.*');
+                $isCourseActive = Request::routeIs('course.*') || Request::routeIs('lesson.*');
                 @endphp
                 <a href="{{ route('course.create') }}"
                     class="sidebar-link flex items-center justify-between px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 {{ $isCourseActive ? 'active' : '' }}"

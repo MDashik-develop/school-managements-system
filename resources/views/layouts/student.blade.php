@@ -140,6 +140,12 @@
                     <i data-feather="home" class="w-5 h-5 mr-3"></i>
                     <span>Exams</span>
                 </a>
+
+                <!-- Students courses -->
+                    <a href="{{ route('student.course.index') }}" class="sidebar-link flex items-center px-4 py-2.5 rounded-lg transition-colors duration-200 hover:bg-slate-700 {{ $isDashboardActive ? 'active' : '' }}">
+                        <i data-feather="home" class="w-5 h-5 mr-3"></i>
+                        Courses
+                    </a>
             </nav>
 
             <div class="px-4 py-4 border-t border-slate-700">
