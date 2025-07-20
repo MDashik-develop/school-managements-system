@@ -23,7 +23,7 @@
                             </span>
 
                             @php
-                                $enrolled = $course->enrollments()->where('user_id', auth()->id())->exists();
+                                $enrolled = $course->enrollments()->where('student_id', auth()->user()->student->id)->exists();
                             @endphp
 
                             @if($enrolled)
@@ -31,12 +31,9 @@
                                     View
                                 </a>
                             @else
-                                <form action="{{ route('student.course.enroll', $course->id) }}" method="POST">
-                                    @csrf
-                                    <button type="submit" class="text-sm text-white bg-indigo-600 px-3 py-1 rounded hover:bg-indigo-700">
-                                        Enroll
-                                    </button>
-                                </form>
+                                <a href="{{ route('student.course.enroll', $course->id) }}" class="text-sm text-white bg-indigo-600 px-3 py-1 rounded hover:bg-indigo-700">
+                                    Enroll
+                                </a>
                             @endif
                         </div>
                     </div>

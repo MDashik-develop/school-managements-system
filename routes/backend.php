@@ -134,8 +134,9 @@ Route::middleware(['auth'])->group(function () {
 
             //course
             Route::get('/student/course/index', [StudentCourseController::class, 'index'])->name('student.course.index');
+            Route::get('/student/course/{course}/view', [StudentCourseController::class, 'CoursView'])->name('student.course.view');
             
-            Route::get('/student/course/enroll', [StudentCourseController::class, 'create'])->name('student.course.enroll');
+            Route::get('/student/{course}/enroll', [StudentCourseController::class, 'enroll'])->name('student.course.enroll');
         });
 
 });
